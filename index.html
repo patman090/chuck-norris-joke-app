@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Appropriate Joke App</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      background: #eee;
+    }
+
+    .box {
+      background: #e6c9a8;
+      margin: 20px auto;
+      padding: 20px;
+      width: 350px;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 120px;
+    }
+
+    img {
+      width: 200px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Your Chuck Norris Image -->
+  <img src="cn.png" alt="Chuck Norris">
+
+  <div class="box">
+    <h3>Brighten your day with several good jokes</h3>
+
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+
+    <br>
+    <button onclick="getJoke()">Get Joke</button>
+  </div>
+
+  <div class="box" id="joke">
+    Click "Get Joke" to start!
+  </div>
+
+  <script>
+    function getJoke() {
+      let first = document.getElementById("firstName").value;
+      let last = document.getElementById("lastName").value;
+
+      // SAFE categories only
+      const categories = ["dev", "science", "history"];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
+      let url = `https://api.chucknorris.io/jokes/random?category=${randomCategory}`;
+
+      // Add custom name if provided
+      if (first && last) {
+        url += `&name=${first}%20${last}`;
+      }
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("joke").innerText = data.value;
+        });
+    }
+  </script>
+
+</body>
+</html>
